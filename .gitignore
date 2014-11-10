@@ -1,0 +1,5 @@
+.idea/
+*.css
+*.js
+src/main/webapp/VAADIN/widgetsets/
+target/
