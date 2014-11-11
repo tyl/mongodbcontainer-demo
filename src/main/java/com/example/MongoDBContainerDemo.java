@@ -5,14 +5,17 @@ import javax.servlet.annotation.WebServlet;
 import com.mongodb.MongoClient;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import it.tylframework.vaadin.addon.MongoContainer;
+import com.vaadin.ui.themes.ValoTheme;
+import org.tylproject.vaadin.addon.MongoContainer;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,13 +26,13 @@ import java.util.logging.Logger;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
-public class MyVaadinUI extends UI
+public class MongoDBContainerDemo extends UI
 {
 
 
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.example.AppWidgetSet")
+    @VaadinServletConfiguration(productionMode = false, ui = MongoDBContainerDemo.class, widgetset = "com.example.AppWidgetSet")
     public static class Servlet extends VaadinServlet {
     }
 
@@ -43,7 +46,7 @@ public class MyVaadinUI extends UI
     final Button btnAdd    = new Button("Add");
 
 
-    public MyVaadinUI() {
+    public MongoDBContainerDemo() {
         try {
 
             mongoOperations = new MongoTemplate(new MongoClient(), "database");
@@ -76,6 +79,8 @@ public class MyVaadinUI extends UI
         logger.info("class is "+c);
 
 
+        disable(btnEdit, btnRemove);
+
         btnRemove.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 Object id = table.getValue();
@@ -89,22 +94,40 @@ public class MyVaadinUI extends UI
                 Object id = table.getValue();
                 BeanItem<Person> item = mongoContainer.getItem(id);
                 EditingWindow w = new EditingWindow(item);
-                MyVaadinUI.this.addWindow(w);
+                MongoDBContainerDemo.this.addWindow(w);
             }
         });
-
 
         btnAdd.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
                 EditingWindow w = new EditingWindow(new BeanItem<Person>(new Person()));
-                MyVaadinUI.this.addWindow(w);
+                MongoDBContainerDemo.this.addWindow(w);
+            }
+        });
+
+        table.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                if (null == event.getProperty().getValue()) {
+                    disable(btnEdit, btnRemove);
+                } else {
+                    enable(btnEdit, btnRemove);
+                }
             }
         });
 
 
-
     }
+
+    private void disable(Button... btns) {
+        for (Button b: btns) b.setEnabled(false);
+    }
+
+    private void enable(Button... btns) {
+        for (Button b: btns) b.setEnabled(true);
+    }
+
 
     private Layout addButtons(HorizontalLayout layout) {
         layout.addComponent(btnAdd);
@@ -188,6 +211,8 @@ public class MyVaadinUI extends UI
                 }
             });
 
+
+
             this.btnCancel.addClickListener(new Button.ClickListener() {
                 @Override
                 public void buttonClick(ClickEvent event) {
@@ -220,8 +245,10 @@ public class MyVaadinUI extends UI
             Label footerText = new Label("Footer text");
             footerText.setSizeUndefined();
 
-            btnOK.addStyleName("primary");
+            btnOK.addStyleName(ValoTheme.BUTTON_PRIMARY);
+            btnOK.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
+            btnCancel.setClickShortcut(ShortcutAction.KeyCode.ESCAPE);
 
             footer.addComponents(footerText, btnOK, btnCancel);
             footer.setExpandRatio(footerText, 1);
