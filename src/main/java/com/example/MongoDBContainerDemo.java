@@ -26,7 +26,7 @@ public class MongoDBContainerDemo extends UI
     @VaadinServletConfiguration(productionMode = false, ui = MongoDBContainerDemo.class, widgetset = "com.example.AppWidgetSet")
     public static class Servlet extends VaadinServlet {}
 
-    TabSheet tabSheet = new TabSheet();
+    final TabSheet tabSheet = new TabSheet();
     MongoOperations mongoOperations = null;
 
     @Override
@@ -41,13 +41,24 @@ public class MongoDBContainerDemo extends UI
         generateRecords();
 
 
-        AbstractMongoDemo buffered = new BufferedMongoDemo(mongoOperations).initLayout();
-        AbstractMongoDemo basic = new BasicMongoDemo(mongoOperations).initLayout();
+        final AbstractMongoDemo buffered = new BufferedMongoDemo(mongoOperations).initLayout();
+        final AbstractMongoDemo basic = new BasicMongoDemo(mongoOperations).initLayout();
 
         tabSheet.addTab(buffered, "Buffered");
         tabSheet.addTab(basic, "Basic");
 
         tabSheet.setSelectedTab(buffered);
+
+        tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
+            public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
+                if (tabSheet.getSelectedTab().equals(buffered)) {
+                    buffered.mongoContainer.refresh();
+                } else {
+                    basic.mongoContainer.refresh();
+                }
+            }
+        });
     }
 
     protected void generateRecords() {

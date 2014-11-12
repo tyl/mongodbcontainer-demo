@@ -41,7 +41,9 @@ public class BasicMongoDemo extends AbstractMongoDemo {
         btnRemove.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 Object id = table.getValue();
+                int index = mongoContainer.indexOfId(id);
                 table.removeItem(id);
+                table.select(mongoContainer.getIdByIndex(index));
             }
         });
 
