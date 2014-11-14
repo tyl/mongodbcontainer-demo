@@ -11,7 +11,6 @@ public class Address {
     private String zipCode;
     private String city;
     private String state;
-    private String country;
 
     public String getStreet() {
         return street;
@@ -45,11 +44,5 @@ public class Address {
         this.state = state;
     }
 
-    public String getCountry() {
-        return country;
-    }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 }
