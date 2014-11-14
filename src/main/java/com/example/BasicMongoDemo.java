@@ -4,6 +4,7 @@ import com.example.model.Person;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.tylproject.vaadin.addon.MongoContainer;
 
@@ -47,8 +48,15 @@ public class BasicMongoDemo extends AbstractMongoDemo {
         btnAdd.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
+                BeanItem<Person> beanItem =
+                        new BeanItem<Person>(new Person(), "firstName", "lastName");
+                beanItem.addNestedProperty("address.street");
+                beanItem.addNestedProperty("address.zipCode");
+                beanItem.addNestedProperty("address.city");
+                beanItem.addNestedProperty("address.state");
+                beanItem.addNestedProperty("address.country");
                 EditingWindow w =
-                        new BasicEditingWindow(new BeanItem<Person>(new Person()),
+                        new BasicEditingWindow(beanItem,
                                 mongoOperations, table);
                 UI.getCurrent().addWindow(w);
             }

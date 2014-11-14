@@ -38,6 +38,7 @@ public class BufferedEditingWindow extends EditingWindow {
             // this.mongoOperations.save(person);
             // notify the container about the change
             this.mongoContainer.notifyItemUpdated(itemId, beanItem);
+
             this.table.refreshRowCache();
 
             table.setCurrentPageFirstItemId(itemId);

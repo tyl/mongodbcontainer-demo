@@ -39,7 +39,7 @@ public class MongoDBContainerDemo extends UI
             e.printStackTrace();
         }
         mongoOperations.remove(new Query(), Person.class);
-        generateRecords();
+        //generateRecords();
 
 
         final AbstractMongoDemo basic = new BasicMongoDemo(mongoOperations).initLayout();
@@ -49,6 +49,8 @@ public class MongoDBContainerDemo extends UI
         tabSheet.addTab(buffered, "Buffered");
 
         tabSheet.setSelectedTab(basic);
+
+
 
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             @Override

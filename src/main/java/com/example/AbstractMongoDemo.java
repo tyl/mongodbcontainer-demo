@@ -57,8 +57,6 @@ public abstract class AbstractMongoDemo extends VerticalLayout {
         this.addComponent(table);
         //table.setVisibleColumns("firstName", "lastName");
 
-        final Class<?> c = mongoContainer.getItem(mongoContainer.firstItemId()).getClass();
-        logger.info("class is "+c);
 
         initButtons();
 

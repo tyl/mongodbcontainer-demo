@@ -6,6 +6,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Table;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.tylproject.vaadin.addon.MongoContainer;
 
 /**
  * Created by evacchi on 11/11/14.
@@ -25,7 +26,9 @@ public class BasicEditingWindow extends EditingWindow {
 
         try {
             fieldGroup.commit();
-            this.mongoOperations.save(person);
+            MongoContainer<Person> container = (MongoContainer<Person>) this.table.getContainerDataSource();
+            container.addEntity(person);
+
             this.table.refreshRowCache();
             
             ObjectId id = person.getId();
