@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.model.Person;
 import com.vaadin.ui.*;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.tylproject.vaadin.addon.MongoContainer;
 
@@ -34,7 +35,8 @@ public abstract class AbstractMongoDemo extends VerticalLayout {
                 .withNestedProperty("address.zipCode", String.class)
                 .withNestedProperty("address.city", String.class)
                 .withNestedProperty("address.state", String.class)
-                .withNestedProperty("address.country", String.class);
+                .withNestedProperty("address.country", String.class)
+                .sortedBy(new Sort("lastName"));
     }
 
     protected AbstractMongoDemo initLayout() {

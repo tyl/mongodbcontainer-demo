@@ -103,6 +103,10 @@ public class BufferedMongoDemo extends AbstractMongoDemo {
             public void buttonClick(Button.ClickEvent event) {
                 // table.commit();
                 mongoContainer.commit();
+                Object id = table.getValue();
+                if (id != null && !table.getVisibleItemIds().contains(id)) {
+                    table.setCurrentPageFirstItemId(id);
+                }
                 msgCommit.show(UI.getCurrent().getPage());
             }
         });

@@ -32,7 +32,9 @@ public class BasicEditingWindow extends EditingWindow {
             this.table.refreshRowCache();
             
             ObjectId id = person.getId();
-            table.setCurrentPageFirstItemId(id);
+            if (!table.getVisibleItemIds().contains(id)) {
+                table.setCurrentPageFirstItemId(id);
+            }
             table.select(id);
 
 
