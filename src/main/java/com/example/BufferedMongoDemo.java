@@ -1,11 +1,10 @@
 package com.example;
 
+import com.example.model.Person;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.UI;
+import com.vaadin.shared.Position;
+import com.vaadin.ui.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.tylproject.vaadin.addon.BufferedMongoContainer;
@@ -19,17 +18,22 @@ public class BufferedMongoDemo extends AbstractMongoDemo {
     protected Button btnCommit = new Button("Commit");
     protected Button btnDiscard = new Button("Discard");
     protected BufferedMongoContainer<Person> mongoContainer;
+    protected Notification msgCommit = new Notification("Changes Committed.", Notification.Type.TRAY_NOTIFICATION);
+    protected Notification msgDiscard = new Notification("Chnages Discarded.", Notification.Type.TRAY_NOTIFICATION);
 
     public BufferedMongoDemo(MongoOperations mongoOperations) {
         super(mongoOperations);
+        msgCommit.setStyleName("system success");
+        msgCommit.setPosition(Position.TOP_CENTER);
+        msgCommit.setDelayMsec(1000);
+        msgDiscard.setStyleName("system success");
+        msgDiscard.setPosition(Position.TOP_CENTER);
+        msgDiscard.setDelayMsec(1000);
     }
 
     @Override
     protected MongoContainer<Person> buildMongoContainer() {
-        return mongoContainer = MongoContainer.Builder
-                .with(mongoOperations)
-                .withBeanClass(Person.class)
-                .buildBuffered();
+        return mongoContainer = mongoBuilder().buildBuffered();
     }
 
     @Override
@@ -99,12 +103,14 @@ public class BufferedMongoDemo extends AbstractMongoDemo {
             public void buttonClick(Button.ClickEvent event) {
                 // table.commit();
                 mongoContainer.commit();
+                msgCommit.show(UI.getCurrent().getPage());
             }
         });
         btnDiscard.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 mongoContainer.discard();
+                msgDiscard.show(UI.getCurrent().getPage());
             }
         });
 

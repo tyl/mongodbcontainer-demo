@@ -1,20 +1,10 @@
 package com.example;
 
-import com.mongodb.MongoClient;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.event.ShortcutAction;
+import com.example.model.Person;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.tylproject.vaadin.addon.MongoContainer;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -35,11 +25,24 @@ public abstract class AbstractMongoDemo extends VerticalLayout {
         this.mongoOperations = mongoOperations;
     }
 
+    final protected MongoContainer.Builder<Person> mongoBuilder() {
+        return MongoContainer.Builder
+                .forEntity(Person.class, mongoOperations)
+                .withProperty("firstName", String.class)
+                .withProperty("lastName", String.class)
+                .withNestedProperty("address.street", String.class)
+                .withNestedProperty("address.zipCode", String.class)
+                .withNestedProperty("address.city", String.class)
+                .withNestedProperty("address.state", String.class)
+                .withNestedProperty("address.country", String.class);
+    }
+
     protected AbstractMongoDemo initLayout() {
         try {
 
             mongoContainer = buildMongoContainer();
             table = new Table("Persons", mongoContainer);
+            table.setSizeFull();
         } catch (Exception e){throw new Error(e);}
 
 
@@ -52,7 +55,7 @@ public abstract class AbstractMongoDemo extends VerticalLayout {
 
         table.setSelectable(true);
         this.addComponent(table);
-        table.setVisibleColumns("firstName", "lastName");
+        //table.setVisibleColumns("firstName", "lastName");
 
         final Class<?> c = mongoContainer.getItem(mongoContainer.firstItemId()).getClass();
         logger.info("class is "+c);
@@ -62,7 +65,7 @@ public abstract class AbstractMongoDemo extends VerticalLayout {
         return this;
     }
 
-    protected abstract  MongoContainer<Person> buildMongoContainer() ;
+    protected abstract MongoContainer<Person> buildMongoContainer() ;
 
     protected abstract void initButtons();
 

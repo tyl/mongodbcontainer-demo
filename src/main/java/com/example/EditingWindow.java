@@ -1,12 +1,11 @@
 package com.example;
 
+import com.example.model.Person;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
 
 /**

@@ -1,9 +1,8 @@
 package com.example;
 
-import com.vaadin.data.Buffered;
+import com.example.model.Person;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;

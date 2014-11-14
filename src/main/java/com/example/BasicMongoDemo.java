@@ -1,22 +1,11 @@
 package com.example;
 
-import com.mongodb.MongoClient;
+import com.example.model.Person;
 import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.tylproject.vaadin.addon.MongoContainer;
-
-import java.util.Arrays;
-import java.util.logging.Logger;
 
 /**
  * Created by evacchi on 11/11/14.
@@ -28,10 +17,7 @@ public class BasicMongoDemo extends AbstractMongoDemo {
 
     @Override
     protected MongoContainer<Person> buildMongoContainer() {
-        return MongoContainer.Builder
-                .with(mongoOperations)
-                .withBeanClass(Person.class)
-                .build();
+        return mongoBuilder().build();
     }
 
 

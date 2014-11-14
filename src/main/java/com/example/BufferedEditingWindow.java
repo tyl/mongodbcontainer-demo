@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.model.Person;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Table;
@@ -36,7 +37,7 @@ public class BufferedEditingWindow extends EditingWindow {
             // do not store it back to Mongo, yet
             // this.mongoOperations.save(person);
             // notify the container about the change
-            this.mongoContainer.notifyItemEdited(itemId, beanItem);
+            this.mongoContainer.notifyItemUpdated(itemId, beanItem);
             this.table.refreshRowCache();
 
             table.setCurrentPageFirstItemId(itemId);

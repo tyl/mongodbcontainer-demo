@@ -2,6 +2,7 @@ package com.example;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.example.model.Person;
 import com.mongodb.MongoClient;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -41,13 +42,13 @@ public class MongoDBContainerDemo extends UI
         generateRecords();
 
 
-        final AbstractMongoDemo buffered = new BufferedMongoDemo(mongoOperations).initLayout();
         final AbstractMongoDemo basic = new BasicMongoDemo(mongoOperations).initLayout();
+        final AbstractMongoDemo buffered = new BufferedMongoDemo(mongoOperations).initLayout();
 
-        tabSheet.addTab(buffered, "Buffered");
         tabSheet.addTab(basic, "Basic");
+        tabSheet.addTab(buffered, "Buffered");
 
-        tabSheet.setSelectedTab(buffered);
+        tabSheet.setSelectedTab(basic);
 
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             @Override
@@ -64,25 +65,12 @@ public class MongoDBContainerDemo extends UI
     protected void generateRecords() {
         Person[] ps = new Person[180];
         for (int j = 0; j<180; j+=4) {
-            ps[j]= (new Person("arnold", "" + j));
-            ps[j+1]=(new Person("andrew", "" + j));
-            ps[j+2]=(new Person("paul", "" + j));
-            ps[j+3]=(new Person("simon", "" + j));
+            ps[j]= (new Person("arnold",  j   + ""));
+            ps[j+1]=(new Person("andrew", j+1 + ""));
+            ps[j+2]=(new Person("paul",   j+2 +  ""));
+            ps[j+3]=(new Person("simon",  j+3 + ""));
         }
         mongoOperations.insert(Arrays.asList(ps), Person.class);
-    }
-
-    protected void generateOneMillionRecords() {
-        for (int i = 0; i<200; i++) {
-            Person[] ps = new Person[4*1000];
-            for (int j = 0; j<4000; j+=4) {
-                ps[j]= (new Person("arnold", "" + i*j));
-                ps[j+1]=(new Person("andrew", "" + i*j));
-                ps[j+2]=(new Person("paul", "" + i*j));
-                ps[j+3]=(new Person("simon", "" + i*j));
-            }
-            mongoOperations.insert(Arrays.asList(ps), Person.class);
-        }
     }
 
 }
