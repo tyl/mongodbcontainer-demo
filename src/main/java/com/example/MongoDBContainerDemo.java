@@ -22,7 +22,10 @@ package com.example;
 import javax.servlet.annotation.WebServlet;
 
 import com.example.model.Person;
+import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -32,8 +35,12 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.Properties;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
@@ -53,8 +60,25 @@ public class MongoDBContainerDemo extends UI
     protected void init(VaadinRequest request) {
         this.setContent(tabSheet);
         try {
-            mongoOperations = new MongoTemplate(new MongoClient(), "scratch");
+
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(System.getProperty("user.home") + "/mongo.properties"));
+
+            String host = prop.getProperty("host").toString();
+            String dbname = prop.getProperty("dbname").toString();
+            String user = prop.getProperty("user").toString();
+            String password = prop.getProperty("password").toString();
+
+            MongoClient client = new MongoClient(
+                    new ServerAddress(host),
+                    Arrays.asList(MongoCredential.createMongoCRCredential(user, dbname, password.toCharArray())));
+
+            mongoOperations = new MongoTemplate(client, dbname);
         } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         // mongoOperations.remove(new Query(), Person.class);
