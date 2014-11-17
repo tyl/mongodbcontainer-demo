@@ -182,7 +182,6 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>install</phase>
 						<configuration>
 							<!-- if you don't specify any modules, the plugin will find them -->
 							<!-- <modules> <module>com.vaadin.demo.mobilemail.gwt.ColorPickerWidgetSet</module> 
