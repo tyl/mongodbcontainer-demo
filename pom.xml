@@ -4,18 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 
-    <parent>
-       	<groupId>org.tylproject.vaadin.addon.mongodbcontainer</groupId>
-    	<artifactId>vaadin-mongodbcontainer</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
 	<groupId>org.tylproject.vaadin.addon.mongodbcontainer</groupId>
-	<artifactId>vaadin-mongodbcontainer-example</artifactId>
+	<artifactId>mongodbcontainer-demo</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Vaadin MongoDB Container Example</name>
+	<name>Vaadin MongoDB Container Demo</name>
+	<organization><name>Tyl Consulting s.a.s.</name></organization>
 
 
 
@@ -99,6 +93,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiled</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-push</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
@@ -123,7 +122,7 @@
 
 		<dependency>
 			<artifactId>mongodbcontainer-addon</artifactId>
-			<groupId>org.tylproject.addon.mongodbcontainer</groupId>
+			<groupId>org.tylproject.vaadin.addon.mongodbcontainer</groupId>
 			<version>0.9-SNAPSHOT</version>
 		</dependency>
 

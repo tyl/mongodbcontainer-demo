@@ -1,5 +1,8 @@
 /**
- * Copyright (c) 2014 - Marco Pancotti, Edoardo Vacchi and Daniele Zonca
+ * Copyright (c) 2014 - Tyl Consulting s.a.s.
+ *
+ *    Authors: Edoardo Vacchi
+ *    Contributors: Marco Pancotti, Daniele Zonca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +17,8 @@
  *  limitations under the License.
  */
 
- package com.example;
+
+package com.example;
 
 import com.example.model.Person;
 import com.vaadin.data.Property;
@@ -26,16 +30,14 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.tylproject.vaadin.addon.BufferedMongoContainer;
 import org.tylproject.vaadin.addon.MongoContainer;
 
-/**
- * Created by evacchi on 11/11/14.
- */
+
 public class BufferedMongoDemo extends AbstractMongoDemo {
 
     protected Button btnCommit = new Button("Commit");
     protected Button btnDiscard = new Button("Discard");
     protected BufferedMongoContainer<Person> mongoContainer;
     protected Notification msgCommit = new Notification("Changes Committed.", Notification.Type.TRAY_NOTIFICATION);
-    protected Notification msgDiscard = new Notification("Chnages Discarded.", Notification.Type.TRAY_NOTIFICATION);
+    protected Notification msgDiscard = new Notification("Changes Discarded.", Notification.Type.TRAY_NOTIFICATION);
 
     public BufferedMongoDemo(MongoOperations mongoOperations) {
         super(mongoOperations);

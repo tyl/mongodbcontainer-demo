@@ -1,5 +1,8 @@
 /**
- * Copyright (c) 2014 - Marco Pancotti, Edoardo Vacchi and Daniele Zonca
+ * Copyright (c) 2014 - Tyl Consulting s.a.s.
+ *
+ *    Authors: Edoardo Vacchi
+ *    Contributors: Marco Pancotti, Daniele Zonca
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +17,7 @@
  *  limitations under the License.
  */
 
- package com.example;
+package com.example;
 
 import com.example.model.Person;
 import com.vaadin.ui.*;
@@ -24,9 +27,6 @@ import org.tylproject.vaadin.addon.MongoContainer;
 
 import java.util.logging.Logger;
 
-/**
- * Created by evacchi on 11/11/14.
- */
 public abstract class AbstractMongoDemo extends VerticalLayout {
     private Logger logger = Logger.getAnonymousLogger();
     MongoContainer<Person> mongoContainer;
