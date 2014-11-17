@@ -62,7 +62,7 @@ public class MongoDBContainerDemo extends UI
         try {
 
             Properties prop = new Properties();
-            prop.load(new FileInputStream(System.getProperty("user.home") + "/mongo.properties"));
+            prop.load(new FileInputStream("/opt/shared/conf/mongodb.properties"));
 
             String host = prop.getProperty("host").toString();
             String dbname = prop.getProperty("dbname").toString();
