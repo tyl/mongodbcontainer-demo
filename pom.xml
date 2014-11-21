@@ -118,7 +118,7 @@
 		<dependency>
 			<artifactId>mongodbcontainer-addon</artifactId>
 			<groupId>org.tylproject.vaadin.addon.mongodbcontainer</groupId>
-			<version>0.9.1.beta.RELEASE</version>
+			<version>0.9.1-beta.RELEASE</version>
 		</dependency>
 
 	</dependencies>
