@@ -48,6 +48,7 @@ public class MongoDBContainerDemo extends UI
 {
 
 
+    private static final String DEFAULT_DBNAME = "scratch";
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = MongoDBContainerDemo.class, widgetset = "com.example.AppWidgetSet")
@@ -60,26 +61,29 @@ public class MongoDBContainerDemo extends UI
     protected void init(VaadinRequest request) {
         this.setContent(tabSheet);
         try {
+            try {
 
-            Properties prop = new Properties();
-            prop.load(new FileInputStream("/opt/shared/conf/mongodb.properties"));
+                Properties prop = new Properties();
+                prop.load(new FileInputStream("/opt/shared/conf/mongodb.properties"));
 
-            String host = prop.getProperty("host").toString();
-            String dbname = prop.getProperty("dbname").toString();
-            String user = prop.getProperty("user").toString();
-            String password = prop.getProperty("password").toString();
+                String host = prop.getProperty("host").toString();
+                String dbname = prop.getProperty("dbname").toString();
+                String user = prop.getProperty("user").toString();
+                String password = prop.getProperty("password").toString();
 
-            MongoClient client = new MongoClient(
-                    new ServerAddress(host),
-                    Arrays.asList(MongoCredential.createMongoCRCredential(user, dbname, password.toCharArray())));
+                MongoClient client = new MongoClient(
+                        new ServerAddress(host),
+                        Arrays.asList(MongoCredential.createMongoCRCredential(user, dbname, password.toCharArray())));
 
-            mongoOperations = new MongoTemplate(client, dbname);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+                mongoOperations = new MongoTemplate(client, dbname);
+            } catch (FileNotFoundException e) {
+                mongoOperations = new MongoTemplate(new MongoClient(), DEFAULT_DBNAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (UnknownHostException ex) {
+            throw new Error(ex);
         }
         // mongoOperations.remove(new Query(), Person.class);
         // generateRecords();
@@ -95,14 +99,13 @@ public class MongoDBContainerDemo extends UI
 
 
 
+
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 if (tabSheet.getSelectedTab().equals(buffered)) {
-                    buffered.mongoContainer.refresh();
                     buffered.table.refreshRowCache();
                 } else {
-                    basic.mongoContainer.refresh();
                     basic.table.refreshRowCache();
                 }
             }
