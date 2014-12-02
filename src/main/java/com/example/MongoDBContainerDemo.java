@@ -43,7 +43,7 @@ public class MongoDBContainerDemo extends UI
 
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MongoDBContainerDemo.class, widgetset = "com.example.AppWidgetSet")
+    @VaadinServletConfiguration(productionMode = false, ui = MongoDBContainerDemo.class)
     public static class Servlet extends VaadinServlet {}
 
     final TabSheet tabSheet = new TabSheet();
